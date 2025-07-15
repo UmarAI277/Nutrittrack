@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>NutriTrack - Your Personal Diet Planner</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+    body { background: #f4f4f4; color: #333; }
+    header { background: #2ecc71; color: white; padding: 20px; text-align: center; }
+    header h1 { font-size: 2.5rem; }
+    nav { background: #27ae60; display: flex; justify-content: center; padding: 10px 0; }
+    nav a { color: white; text-decoration: none; margin: 0 15px; font-weight: 600; }
+    .hero {
+      background: url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c') no-repeat center center/cover;
+      height: 400px; display: flex; align-items: center; justify-content: center;
+      color: white; text-align: center; flex-direction: column;
+    }
+    .hero h2 {
+      font-size: 2.8rem; background: rgba(0,0,0,0.5); padding: 10px 20px; border-radius: 10px;
+    }
+    .hero p { margin-top: 10px; font-size: 1.2rem; }
+    .hero button {
+      margin-top: 20px; padding: 10px 25px; background: #2ecc71;
+      border: none; color: white; font-size: 1rem; border-radius: 30px; cursor: pointer;
+    }
+    section { padding: 40px 20px; max-width: 800px; margin: auto; }
+    h3 { text-align: center; margin-bottom: 20px; color: #27ae60; }
+    form { display: flex; flex-direction: column; gap: 15px; }
+    label { font-weight: 600; }
+    input, select {
+      padding: 10px; border: 1px solid #ccc; border-radius: 5px;
+    }
+    button.calculate {
+      background: #27ae60; color: white; padding: 12px; border: none;
+      border-radius: 5px; font-size: 1rem; cursor: pointer;
+    }
+    .result, .diet-plan {
+      margin-top: 20px; background: #fff; padding: 20px;
+      border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    footer {
+      background: #2ecc71; color: white; text-align: center; padding: 15px; margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>NutriTrack</h1>
+    <p>Your Personal Diet Planner and Calorie Calculator</p>
+  </header>
+
+  <nav>
+    <a href="#">Home</a>
+    <a href="#calculator">Calorie Calculator</a>
+    <a href="#plan">Diet Plan</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <section class="hero">
+    <h2>Get Fit with the Right Food!</h2>
+    <p>Track your calories & get a personalized diet plan.</p>
+    <button onclick="document.getElementById('calculator').scrollIntoView({behavior: 'smooth'})">Start Your Free Plan Now</button>
+  </section>
+
+  <section id="calculator">
+    <h3>Calorie Calculator</h3>
+    <form id="calorieForm">
+      <label>Age:</label><input type="number" id="age" required>
+      <label>Gender:</label>
+      <select id="gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+      <label>Height (cm):</label><input type="number" id="height" required>
+      <label>Weight (kg):</label><input type="number" id="weight" required>
+      <label>Activity Level:</label>
+      <select id="activity">
+        <option value="1.2">Sedentary</option>
+        <option value="1.375">Lightly active</option>
+        <option value="1.55">Moderately active</option>
+        <option value="1.725">Very active</option>
+        <option value="1.9">Super active</option>
+      </select>
+      <button class="calculate" type="submit">Calculate Calories</button>
+    </form>
+    <div class="result" id="result"></div>
+  </section>
+
+  <section id="plan">
+    <h3>Sample Diet Plan</h3>
+    <div class="diet-plan" id="dietPlan">
+      <p>Please use the calculator above to generate your calorie needs first.</p>
+    </div>
+  </section>
+
+  <section id="contact">
+    <h3>Contact Us</h3>
+    <p style="text-align:center">Have questions? Email us at <a href="mailto:support@nutritrack.com">support@nutritrack.com</a></p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 NutriTrack. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+    const form = document.getElementById('calorieForm');
+    const result = document.getElementById('result');
+    const dietPlan = document.getElementById('dietPlan');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const age = +document.getElementById('age').value;
+      const gender = document.getElementById('gender').value;
+      const height = +document.getElementById('height').value;
+      const weight = +document.getElementById('weight').value;
+      const activity = +document.getElementById('activity').value;
+
+      let bmr;
+      if (gender === 'male') {
+        bmr = 10 * weight + 6.25 * height - 5 * age + 5;
+      } else {
+        bmr = 10 * weight + 6.25 * height - 5 * age - 161;
+      }
+
+      const calories = Math.round(bmr * activity);
+
+      result.innerHTML = `<h4>Your Daily Calorie Need: ${calories} kcal</h4>`;
+
+      dietPlan.innerHTML = `
+        <h4>Suggested Diet Plan</h4>
+        <ul>
+          <li><strong>Breakfast:</strong> Oatmeal with fruits and a boiled egg (Approx. 400 kcal)</li>
+          <li><strong>Lunch:</strong> Grilled chicken, brown rice, and salad (Approx. 600 kcal)</li>
+          <li><strong>Dinner:</strong> Fish or lentils with steamed vegetables (Approx. 500 kcal)</li>
+          <li><strong>Snacks:</strong> Nuts or yogurt (Approx. 200 kcal)</li>
+        </ul>
+      `;
+    });
+  </script>
+
+</body>
+</html>
